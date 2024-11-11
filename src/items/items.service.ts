@@ -1,27 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
 import { UpdateItemDto } from './dto/update-item.dto';
-
 @Injectable()
-export class ItemsService {
-  create(createItemDto:CreateItemDto) {
-    return ' this action adds new colums is already ';
+export class ItemService {
+  constructor(
+    @InjectRepository(Item)
+    private readonly itemRepository: Repository<Item>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createItemDto: CreateItemDto) {
+    const item = new Item(createItemDto);
+    await this.entityManager.save(item);
   }
 
-  findAll() {
-    return `This action return all item you want `;
+  async findAll() {
+    return this.itemRepository.find();
   }
 
-  findOne(id:number){
-    return `This action retun #${id} item`;
+  findOne(id: number) {
+    return `This action retuns a #${id} item`;
   }
 
-  update(id:number,updateItemDto : UpdateItemDto){
-    return ` This action update a #${id} item`;
+  update(id: number, updateItemDto: UpdateItemDto) {
+    return `This action updates a #${id} items`;
   }
 
-  remove(id:number) {
-    return `this action udpate a #${id} item`;
+  remove(id: number) {
+    return `This action  removes a #${id} item`;
   }
 }
