@@ -10,7 +10,6 @@ import { ItemsModule } from './items/items.module';
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     ItemsModule,
-    // ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
