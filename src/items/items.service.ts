@@ -22,7 +22,7 @@ export class ItemService {
   }
 
   findOne(id: number) {
-    return `This action retuns a #${id} item`;
+    return this.itemRepository.findOneBy({ id });
   }
 
   update(id: number, updateItemDto: UpdateItemDto) {
