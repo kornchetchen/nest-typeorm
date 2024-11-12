@@ -4,6 +4,7 @@ import { EntityManager, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './entities/item.entity';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Listing } from './entities/listing.entity';
 @Injectable()
 export class ItemService {
   constructor(
@@ -13,7 +14,18 @@ export class ItemService {
   ) {}
 
   async create(createItemDto: CreateItemDto) {
-    const item = new Item(createItemDto);
+    const listing = new Listing({
+      ...createItemDto.listing,
+      rating:0,
+    }
+
+    );
+    const item = new Item({
+      ...createItemDto,
+      listing,
+    }
+
+    );
     await this.entityManager.save(item);
   }
 
@@ -21,15 +33,21 @@ export class ItemService {
     return this.itemRepository.find();
   }
 
-  findOne(id: number) {
-    return this.itemRepository.findOneBy({ id });
+  async findOne(id: number) {
+    return this.itemRepository.findOne({
+      where: { id },
+      relations: { listing: true },
+    })
   }
 
-  update(id: number, updateItemDto: UpdateItemDto) {
+  async update(id: number, updateItemDto: UpdateItemDto) {
+    const item = await this.itemRepository.findOneBy({ id });
+    item.public = updateItemDto.public;
+    await this.entityManager.save(item);
     return `This action updates a #${id} items`;
   }
 
-  remove(id: number) {
-    return `This action  removes a #${id} item`;
+  async remove(id: number) {
+    await this.itemRepository.delete(id);
   }
 }
