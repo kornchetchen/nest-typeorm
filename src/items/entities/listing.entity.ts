@@ -3,6 +3,7 @@ import { Item } from "./item.entity";
 
 @Entity()
 export class Listing {
+    [x: string]: any;
     @PrimaryColumn()
     id: number;
 

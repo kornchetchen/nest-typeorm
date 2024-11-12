@@ -21,6 +21,7 @@ export class ItemsController {
   }
 
   @Get()
+
   findAll() {
     return this.itemsService.findAll();
   }
