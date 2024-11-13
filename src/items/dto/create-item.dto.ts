@@ -1,3 +1,4 @@
+import { Column } from "typeorm";
 import { Listing } from "../entities/listing.entity";
 import { createListingDto } from "./create-listing.dto";
 
@@ -6,3 +7,5 @@ export class CreateItemDto {
   public: boolean;
   listing: createListingDto;
 }
+
+

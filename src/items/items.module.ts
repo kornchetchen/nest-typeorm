@@ -7,8 +7,8 @@ import { Listing } from './entities/listing.entity';
 import { Tag } from './entities/tag.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item, Listing, Comment, Tag])],
+  imports: [TypeOrmModule.forFeature([Item])],
   controllers: [ItemsController],
-  providers: [ItemService,ItemSu],
+  providers: [ItemService],
 })
 export class ItemsModule {}
